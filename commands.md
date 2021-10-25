@@ -19,7 +19,8 @@ nano log-ingest-api.json
 create script to send log message to the dynatrace log ingest api
 ```
 nano send-to-dynatrace.sh
-
+```
+```
 curl -ki https://<active-gate>:9999/e/<environment>/api/v2/logs/ingest --data-binary "@log-ingest-api.json" -H 'Content-Type: application/json; charset=utf-8' -H 'Authorization: Api-Token <API-TOKEN>'
 ```
 execute script to send log message to the dynatrace log ingest api
