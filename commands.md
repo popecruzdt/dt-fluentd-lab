@@ -24,6 +24,7 @@ curl -ki https://<active-gate>:9999/e/<environment>/api/v2/logs/ingest --data-bi
 ```
 execute script to send log message to the dynatrace log ingest api
 ```
+chmod o+rwx send-to-dynatrace.sh
 ./send-to-dynatrace.sh
 
 HTTP/1.1 204 No Content
@@ -37,20 +38,23 @@ crontab -e
 ### install fluentd (td-agent)
 install td-agent for ubuntu https://docs.fluentd.org/installation
 ```
-curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-bionic-td-agent4.sh | sh
+curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-focal-td-agent4.sh | sh
 systemctl status td-agent.service
 ```
 ### install fluent-plugin-dynatrace
 install dynatrace fluentd plugin https://github.com/dynatrace-oss/fluent-plugin-dynatrace
 ```
 td-agent-gem install fluent-plugin-dynatrace
+
+Done installing documentation for fluent-plugin-dynatrace after 0 seconds
+1 gem installed
 ```
-try again with dependencies addressed
+backup td-agent configuration, clear configuration
 ```
-apt-get install ubuntu-dev-tools
-td-agent-gem install fluent-plugin-dynatrace
+cp /etc/td-agent/td-agent.conf /etc/td-agent/td-agent.conf.original
+rm /etc/td-agent/td-agent.conf
 ```
-modify td-agent configuration
+modify td-agent configuration, add dynatrace integration
 ```
 nano /etc/td-agent/td-agent.conf
 
@@ -109,6 +113,7 @@ curl -ki http://localhost:8888/dt.test --data-binary "@log-fluentd.json" -H 'Con
 ```
 execute script to send log message to fluentd
 ```
+chmod o+rwx send-to-fluentd.sh
 ./send-to-fluentd.sh
 
 HTTP/1.1 200 OK
