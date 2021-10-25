@@ -11,7 +11,9 @@ nano log-ingest-api.json
     "level": "INFO",
     "content": "this is a generic log ingest api message",
     "log.source": "generic log ingest",
-    "dt.entity.custom_device": "CUSTOM_DEVICE-<ID>"
+    "dt.entity.custom_device": "CUSTOM_DEVICE-<ID>",
+    "lab.user": "<your name>",
+    "lab.location": "<your location>"
 }
 ```
 create script to send log message to the dynatrace log ingest api
@@ -94,7 +96,9 @@ nano log-fluentd.json
     "level": "INFO",
     "content": "this is a fluentd integration log message",
     "log.source": "fluentd integration",
-    "dt.entity.custom_device": "CUSTOM_DEVICE-<ID>"
+    "dt.entity.custom_device": "CUSTOM_DEVICE-<ID>",
+    "lab.user": "<your name>",
+    "lab.favorite": "<your favorite>"
 }
 ```
 create script to send log message to fluentd
