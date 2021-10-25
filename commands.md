@@ -1,6 +1,11 @@
 ### SSH
+connect to instance via ssh using private key
 ```
 ssh -i <key-name.pem> ubuntu@<hostname-or-ip-addr>
+```
+become root user
+```
+sudo su -
 ```
 ### send json log message to dynatrace log ingest API
 create log message contents in json format
