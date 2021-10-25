@@ -28,9 +28,8 @@ execute script to send log message to the dynatrace log ingest api
 chmod o+rwx send-to-dynatrace.sh
 ./send-to-dynatrace.sh
 ```
-```
-HTTP/1.1 204 No Content
-```
+>HTTP/1.1 204 No Content
+
 add a cron to execute script every 1 minute
 ```
 crontab -e
