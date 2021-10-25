@@ -27,26 +27,31 @@ execute script to send log message to the dynatrace log ingest api
 ```
 chmod o+rwx send-to-dynatrace.sh
 ./send-to-dynatrace.sh
-
+```
+```
 HTTP/1.1 204 No Content
 ```
 add a cron to execute script every 1 minute
 ```
 crontab -e
-
+```
+```
 */1 * * * * /root/send-to-dynatrace.sh >/dev/null 2>&1
 ```
 ### install fluentd (td-agent)
 install td-agent for ubuntu https://docs.fluentd.org/installation
 ```
 curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-focal-td-agent4.sh | sh
+```
+```
 systemctl status td-agent.service
 ```
 ### install fluent-plugin-dynatrace
 install dynatrace fluentd plugin https://github.com/dynatrace-oss/fluent-plugin-dynatrace
 ```
 td-agent-gem install fluent-plugin-dynatrace
-
+```
+```
 Done installing documentation for fluent-plugin-dynatrace after 0 seconds
 1 gem installed
 ```
@@ -58,7 +63,8 @@ rm /etc/td-agent/td-agent.conf
 modify td-agent configuration, add dynatrace integration
 ```
 nano /etc/td-agent/td-agent.conf
-
+```
+```
 # HTTP input
 # POST http://localhost:8888/<tag>?json=<json>
 # POST http://localhost:8888/td.myapp.login?json={"user"%3A"me"}
@@ -96,7 +102,8 @@ systemctl restart td-agent.service
 create log message contents in json format
 ```
 nano log-fluentd.json
-
+```
+```
 {
     "level": "INFO",
     "content": "this is a fluentd integration log message",
@@ -109,19 +116,22 @@ nano log-fluentd.json
 create script to send log message to fluentd
 ```
 nano send-to-fluentd.sh
-
+```
+```
 curl -ki http://localhost:8888/dt.test --data-binary "@log-fluentd.json" -H 'Content-Type: application/json'
 ```
 execute script to send log message to fluentd
 ```
 chmod o+rwx send-to-fluentd.sh
 ./send-to-fluentd.sh
-
+```
+```
 HTTP/1.1 200 OK
 ```
 add a cron to execute script every 1 minute (keep existing cron as well)
 ```
 crontab -e
-
+```
+```
 */1 * * * * /root/send-to-fluentd.sh >/dev/null 2>&1
 ```
