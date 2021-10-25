@@ -37,6 +37,8 @@ crontab -e
 ```
 */1 * * * * /root/send-to-dynatrace.sh >/dev/null 2>&1
 ```
+>crontab: installing new crontab
+
 ### install fluentd (td-agent)
 install td-agent for ubuntu https://docs.fluentd.org/installation
 ```
@@ -45,15 +47,18 @@ curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-focal-td-agent4.s
 ```
 systemctl status td-agent.service
 ```
+>td-agent.service - td-agent: Fluentd based data collector for Treasure Data
+>     Loaded: loaded (/lib/systemd/system/td-agent.service; enabled; vendor preset: enabled)
+>     Active: active (running) since
+
 ### install fluent-plugin-dynatrace
 install dynatrace fluentd plugin https://github.com/dynatrace-oss/fluent-plugin-dynatrace
 ```
 td-agent-gem install fluent-plugin-dynatrace
 ```
-```
-Done installing documentation for fluent-plugin-dynatrace after 0 seconds
-1 gem installed
-```
+>Done installing documentation for fluent-plugin-dynatrace after 0 seconds
+>1 gem installed
+
 backup td-agent configuration, clear configuration
 ```
 cp /etc/td-agent/td-agent.conf /etc/td-agent/td-agent.conf.original
@@ -124,9 +129,8 @@ execute script to send log message to fluentd
 chmod o+rwx send-to-fluentd.sh
 ./send-to-fluentd.sh
 ```
-```
-HTTP/1.1 200 OK
-```
+>HTTP/1.1 200 OK
+
 add a cron to execute script every 1 minute (keep existing cron as well)
 ```
 crontab -e
@@ -134,3 +138,4 @@ crontab -e
 ```
 */1 * * * * /root/send-to-fluentd.sh >/dev/null 2>&1
 ```
+>crontab: installing new crontab
