@@ -33,15 +33,13 @@ crontab -e
 */1 * * * * /root/send-to-dynatrace.sh >/dev/null 2>&1
 ```
 ### install fluentd (td-agent)
-https://docs.fluentd.org/installation
-install td-agent for ubuntu
+install td-agent for ubuntu https://docs.fluentd.org/installation
 ```
 curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-bionic-td-agent4.sh | sh
 systemctl status td-agent.service
 ```
 ### install fluent-plugin-dynatrace
-https://github.com/dynatrace-oss/fluent-plugin-dynatrace
-install dynatrace fluentd plugin
+install dynatrace fluentd plugin https://github.com/dynatrace-oss/fluent-plugin-dynatrace
 ```
 td-agent-gem install fluent-plugin-dynatrace
 ```
@@ -86,4 +84,34 @@ nano /etc/td-agent/td-agent.conf
 restart td-agent to update configuration
 ```
 systemctl restart td-agent.service
+```
+### send json log message to fluentd
+create log message contents in json format
+```
+nano log-fluentd.json
+
+{
+    "level": "INFO",
+    "content": "this is a fluentd integration log message",
+    "log.source": "fluentd integration",
+    "dt.entity.custom_device": "CUSTOM_DEVICE-<ID>"
+}
+```
+create script to send log message to fluentd
+```
+nano send-to-fluentd.sh
+
+curl -ki http://localhost:8888/dt.test --data-binary "@log-fluentd.json" -H 'Content-Type: application/json'
+```
+execute script to send log message to fluentd
+```
+./send-to-fluentd.sh
+
+HTTP/1.1 200 OK
+```
+add a cron to execute script every 1 minute (keep existing cron as well)
+```
+crontab -e
+
+*/1 * * * * /root/send-to-fluentd.sh >/dev/null 2>&1
 ```
